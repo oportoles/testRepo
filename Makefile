@@ -9,7 +9,7 @@ flake:
 	flake8
 
 spellcheck:
-	codespell <PKG_NAME>/ docs/ examples/
+	codespell buildtest/ docs/ examples/
 
 test:
 	pytest -v

@@ -7,14 +7,14 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 
-DOWNLOAD_URL = '<GITHUB_URL>'
-URL = '<DOC_URL>'
+DOWNLOAD_URL = 'https://github.com/oportoles/testRepo/'
+URL = 'https://oportoles.github.io/testRepo/'
 
 setuptools.setup(
-    name='<PKG_NAME>',
-    author='<AUTHOR_NAME>',
-    author_email='<AUTHOR_EMAIL>',
-    description='<SHORT_DESC>',
+    name='buildtest',
+    author='O Portoles',
+    author_email='o.portoles@fz-juelich.de',
+    description='Test to build a library from Fedes template',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url=URL,
@@ -42,7 +42,7 @@ setuptools.setup(
     use_scm_version=dict(
         version_scheme="python-simplified-semver",
         local_scheme="node-and-date",
-        write_to="<PKG_NAME>/_version.py",
+        write_to="buildtest/_version.py",
         write_to_template="__version__ = '{version}'\n"
     ),
     setup_requires=['setuptools_scm'],

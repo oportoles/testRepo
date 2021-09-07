@@ -21,9 +21,9 @@ sys.path.append((curdir / 'sphinxext').as_posix())
 
 # -- Project information -----------------------------------------------------
 
-project = '<PKG_NAME>'
-copyright = '2021, Authors of <PKG_NAME>'
-author = '<AUTHOR_NAME>'
+project = 'buildtest'
+copyright = '2021, Authors of buildtest'
+author = 'O Portoles'
 
 
 # -- General configuration ---------------------------------------------------

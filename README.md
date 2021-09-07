@@ -23,11 +23,11 @@ git checkout main
 
 | Token  | Content | Example |
 | ------------- | ------------- |------------- |
-| `<PKG_NAME>`  | Package name  | `julearn` |
+| `buildtest`  | Package name  | `julearn` |
 | `<GITHUB_URL>` | Github URL (without .git)   | `https://github.com/juaml/julearn` |
 | `<DOC_URL>` | DOCs URL  | `https://juaml.github.io/julearn` |
-| `<AUTHOR_NAME>` | Author's name | `Fede Raimondo` |
-| `<AUTHOR_EMAIL>` | Author's name | `f.raimondo@fz-juelich.de` |
+| `O Portoles` | Author's name | `Fede Raimondo` |
+| `o.portoles@fz-juelich.de` | Author's name | `f.raimondo@fz-juelich.de` |
 | `<SHORT_DESC>` | Short description | `FZJ AML Library`
 
 8. Go to https://pypi.org/
