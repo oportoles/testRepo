@@ -1,51 +1,42 @@
-# python-library-mockup
-Template repository to create a python library (like julearn)
+# hipsnp
 
+functions to handle SNP data, especially from the UKB.
 
-## Instructions
-
-1. Create a repository on Github using this one as a template.
-2. Go to the actions tab and disable the 3 workflows:
-   1. Click on the workflow
-   2. Click on the 3 dots and select "Disable Workflow"
-3. Clone your repository.
-4. Create a gh-pages branch:
 ```
-git checkout --orphan gh-pages
-git reset --hard
-git commit --allow-empty -m "Initializing gh-pages branch"
-git push origin gh-pages
-git checkout main
+>>> import hipsnp
+>>> genotypes = hipsnp.vcf2genotype('snp_epilepsy.vcf')
+>>> genotypes
+                         4303212 3351913 2982758  ... 1709854 5348682 5862730
+rs2535288,6:31064007_C_A      CA      CA      CA  ...      CA      CC      CA
+rs2858870,6:32572251_T_C      TT      TT      TT  ...      TT      TT      TT
+
+[2 rows x 487409 columns]
 ```
-5. Go to Github and activate github pages.
-6. Change the name of the library (currently `mockup`)
-7. Replace the following tokens with search and replace.
 
-| Token  | Content | Example |
-| ------------- | ------------- |------------- |
-| `buildtest`  | Package name  | `julearn` |
-| `<GITHUB_URL>` | Github URL (without .git)   | `https://github.com/juaml/julearn` |
-| `<DOC_URL>` | DOCs URL  | `https://juaml.github.io/julearn` |
-| `O Portoles` | Author's name | `Fede Raimondo` |
-| `o.portoles@fz-juelich.de` | Author's name | `f.raimondo@fz-juelich.de` |
-| `<SHORT_DESC>` | Short description | `FZJ AML Library`
+# resources
 
-8. Go to https://pypi.org/
-   1. login (maybe create an account)
-   2. Go to account settings
-   3. Scroll down to API tokens
-   4. Create a token for all projects, take note.
-9. Repeat the previous step but for https://test.pypi.org
-10. On your Github repository, go to "Settings" and the "Secrets". Add the respective `PYPI_TOKEN` and `TESTPYPI_TOKEN`
-11. Commit the changes.
-13. Push
-14. Enable the workflows that were disabled in 2
-15. Open the documentation and follow the instructions to release a version.
-16. Go to https://pypi.org/
-   1. login 
-   2. Go to account settings
-   3. Scroll down to API tokens
-   4. Create a token for the new project, take note.
-   5. Remove the token created in 8.4
-17. Repeat the previous step but for https://test.pypi.org
-18. On your Github repository, go to "Settings" and the "Secrets". Update the respective `PYPI_TOKEN` and `TESTPYPI_TOKEN`
+
+## SNP databases
+
+https://www.ncbi.nlm.nih.gov/snp/
+
+http://www.ensembl.org/Homo_sapiens
+
+https://varsome.com
+
+
+## Tools
+
+https://www.well.ox.ac.uk/~gav/qctool/
+
+
+## Info
+
+https://eu.idtdna.com/pages/education/decoded/article/genotyping-terms-to-know
+
+https://faculty.washington.edu/browning/intro-to-vcf.html
+
+https://www.reneshbedre.com/blog/vcf-fields.html
+
+https://www.garvan.org.au/research/kinghorn-centre-for-clinical-genomics/learn-about-genomics/for-gp/genetics-refresher-1/types-of-variants
+
