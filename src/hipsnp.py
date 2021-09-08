@@ -114,8 +114,8 @@ def rsid2vcf(rsids, outdir,
         df.to_csv(file_rsids, index=False, header=False)
 
         file_vcf = os.path.join(outdir, 'chromosome' + str(ch) + '.vcf')
-        cmd = qctool + ' -g ' + file_bgen + ' -s'  + file_sample
-            + ' -incl-rsids ' + file_rsids  + ' -og ' + file_vcf
+        cmd = (qctool + ' -g ' + file_bgen + ' -s'  + file_sample
+               + ' -incl-rsids ' + file_rsids  + ' -og ' + file_vcf)
         print('running qctool: ' + cmd  + '\n')
         os.system(cmd)
 
@@ -182,7 +182,7 @@ def vcf2genotype(vcf, th=0.9, snps=None, samples=None):
         for sam in samples:
             GP = vcf[sam][snp]
             GP = [float(x) for x in GP.split(',')]
-            # def f(x): return GP[x] 
+            # def f(x): return GP[x]
             # f = lambda i: GP[i]
             GT = max(range(len(GP)), key=lambda i: GP[i])
             if GP[GT] >= th:
