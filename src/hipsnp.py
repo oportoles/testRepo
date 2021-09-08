@@ -194,4 +194,3 @@ def vcf2genotype(vcf, th=0.9, snps=None, samples=None):
                     labels[sam][snp] = ALT + ALT
 
     return labels
-
