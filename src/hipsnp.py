@@ -2,35 +2,37 @@ import io
 import os
 import glob
 import shutil
-import subprocess
 import requests
 import pandas as pd
 from datalad import api as datalad
+
 
 def ensembl_human_rsid(rsid):
     """
     make a REST call to ensemble and return json info of a variant given a rsid
     """
-    url = 'http://rest.ensembl.org/variation/human/' + rsid + '?content-type=application/json'
+    urlbase = 'http://rest.ensembl.org/variation/human/'
+    url = urlbase + rsid + '?content-type=application/json'
     response = requests.get(url)
     return response
 
 
 def datalad_get_chromosome(c,
-        source=None,
-        imputationdir='imputation',
-        path=None):
+                           source=None,
+                           imputationdir='imputation',
+                           path=None):
     """
     get a particular chromosome's (imputed) data
     """
     if source is None or source == '':
-        source="ria+http://ukb.ds.inm7.de#~genetic"
+        source = "ria+http://ukb.ds.inm7.de#~genetic"
 
     if path is None or path == '':
         path = os.path.join('/tmp', 'genetic')
 
     ds = datalad.clone(source=source, path=path)
-    files = glob.glob(os.path.join(ds.path, imputationdir, '*_c' + str(c) + '_*'))
+    files = glob.glob(os.path.join(ds.path, imputationdir,
+                      '*_c' + str(c) + '_*'))
     ds.get(files)
     return files, ds
 
@@ -38,7 +40,7 @@ def datalad_get_chromosome(c,
 def rsid2chromosome(rsids):
     if isinstance(rsids, str) and os.path.isfile(rsids):
         rsids = pd.read_csv(rsids, header=None)
-        rsids = list(rsids.iloc[:,0])
+        rsids = list(rsids.iloc[:, 0])
     elif isinstance(rsids, str):
         rsids = [rsids]
 
@@ -58,10 +60,10 @@ def rsid2chromosome(rsids):
 
 
 def rsid2vcf(rsids, outdir,
-        datalad_source="ria+http://ukb.ds.inm7.de#~genetic",
-        qctool=None,
-        datalad_drop=True,
-        tmpdir='/tmp'):
+             datalad_source = "ria+http://ukb.ds.inm7.de#~genetic",
+             qctool=None,
+             datalad_drop=True,
+             tmpdir='/tmp'):
     # check if qctool is available
     if qctool is None:
         qctool = shutil.which('qctool')
@@ -83,9 +85,11 @@ def rsid2vcf(rsids, outdir,
     print('chromosomes needed: ' + str(uchromosomes) + '\n')
     for c in range(len(uchromosomes)):
         ch = uchromosomes[c]
-        ind = [i for i, x in enumerate(ch_rs['chromosomes']) if x == uchromosomes[c]]
+        ind = [i for i, x in enumerate(ch_rs['chromosomes'])
+               if x == uchromosomes[c]]
         rs_ch = [rsids[i] for i in ind]
-        print('chromosome ' + str(ch) + ' with ' + str(len(rs_ch)) + ' rsids\n')
+        print('chromosome ' + str(ch)
+              + ' with ' + str(len(rs_ch)) + ' rsids\n')
         if len(rs_ch) < 11:
             print('rsids: ' + str(rs_ch) + '\n')
         # get the data
@@ -104,12 +108,13 @@ def rsid2vcf(rsids, outdir,
                 file_sample = fl
 
         assert file_bgen is not None and file_sample is not None
-        file_rsids = os.path.join(outdir, 'rsids_chromosome' + str(ch) + '.txt')
+        file_rsids = os.path.join(outdir, 
+                                  'rsids_chromosome' + str(ch) + '.txt')
         df = pd.DataFrame(rs_ch)
         df.to_csv(file_rsids, index=False, header=False)
 
         file_vcf = os.path.join(outdir, 'chromosome' + str(ch) + '.vcf')
-        cmd = qctool + ' -g ' + file_bgen + ' -s ' + file_sample \
+        cmd = qctool + ' -g ' + file_bgen + ' -s'  + file_sample 
               + ' -incl-rsids ' + file_rsids  + ' -og ' + file_vcf
         print('running qctool: ' + cmd  + '\n')
         os.system(cmd)
@@ -122,13 +127,15 @@ def rsid2vcf(rsids, outdir,
 
     return ch_rs
 
+
 def read_vcf(path):
     """
-    taken shameless from: https://gist.github.com/dceoy/99d976a2c01e7f0ba1c813778f9db744
+    taken shameless from:
+    https://gist.github.com/dceoy/99d976a2c01e7f0ba1c813778f9db744
     Thanks Daichi Narushima
     """
     with open(path, 'r') as f:
-        lines = [l for l in f if not l.startswith('##')]
+        lines = [li for li in f if not li.startswith('##')]
     return pd.read_csv(
         io.StringIO(''.join(lines)),
         dtype={'#CHROM': str, 'POS': int, 'ID': str, 'REF': str, 'ALT': str,
@@ -141,7 +148,7 @@ def vcf2genotype(vcf, th=0.9, snps=None, samples=None):
     """
     given a vcf file path or a pandas df from read_vcf returns genotypes
     """
-    if isinstance(vcf ,str):
+    if isinstance(vcf, str):
         vcf = read_vcf(vcf)
     elif isinstance(vcf, pd.DataFrame):
         pass
@@ -154,13 +161,11 @@ def vcf2genotype(vcf, th=0.9, snps=None, samples=None):
         print('I can only deal with the GP format')
         raise
 
-    nsnp = vcf.shape[0]
     ncol = vcf.shape[1]
     if samples is None:
         samples = [vcf.columns[i] for i in range(9, ncol)]
     else:
         assert all(sam in list(vcf.columns) for sam in samples)
-
 
     if snps is None:
         snps = list(vcf['ID'])
@@ -177,8 +182,9 @@ def vcf2genotype(vcf, th=0.9, snps=None, samples=None):
         for sam in samples:
             GP = vcf[sam][snp]
             GP = [float(x) for x in GP.split(',')]
-            f = lambda i: GP[i]
-            GT = max(range(len(GP)), key=f)
+            #def f(x): return GP[x] 
+            #f = lambda i: GP[i]
+            GT = max(range(len(GP)), key=lambda i: GP[i])
             if GP[GT] >= th:
                 if GT == 0:
                     labels[sam][snp] = REF + REF
